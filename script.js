@@ -1,7 +1,7 @@
 //Global Variables
 var operatorElem;
-var n1;
-var n2;
+var n1 = "";
+var n2 = "";
 
 //functions for calculator
 const add = (number1, number2) => {
@@ -26,57 +26,51 @@ const divide = (number1, number2) => {
 
 const operate = (operator, n1, n2) => {
     let total = 0;
+    let num1 = Number(n1);
+    let num2 = Number(n2);
     switch(operator) {
         case "+":
-            total = add(n1, n2);
+            total = add(num1, num2);
             break;
         case "-":
-            total = subtract(n1, n2);
+            total = subtract(num1, num2);
             break;
         case "x":
-            total = multiply(n1, n2);
+            total = multiply(num1, num2);
             break;
         case "/":
-            total = divide(n1, n2);
+            total = divide(num1, num2);
             break;
     }
-    n1 = total;
     displayScreen(total);
 }
 
 const displayScreen = (displayElement) => {
     const screen = document.querySelector('.Display');
-    screen.textContent += displayElement;
+    screen.textContent = displayElement;
 }
 
 const saveOperator = (e) => {
-    const displayNum = document.querySelector('.Display');
-    n1 = displayNum.textContent;
-    console.log('n1: ' + n1);
-    
-    if(n1 != undefined) {
-        const element = e.target.textContent;
-        displayScreen(element);
-        operatorElem = element;
-    } else {
-        alert("Please Select a number first");
-    }
-    console.log("opElem: " + operatorElem);
+    const element = e.target.textContent;
+    operatorElem = element;
+    console.log('operator: ' + operatorElem);
+    displayScreen(element);
 }
 
 const operators = document.querySelectorAll('.Operator');
 operators.forEach(operator => operator.addEventListener('click', saveOperator));
 
 const displayNumber = (e) => {
-    let Element = e.target.textContent;
-    displayScreen(Element);
-    /*if (operatorElem === undefined) {
-        n1 = Number(Element);
-        console.log("n1: " + n1);
+    let element = e.target.textContent;
+    if(operatorElem === undefined) {
+        n1 += element;
+        displayScreen(n1);
+        console.log('n1: ' + n1);
     } else {
-        n2 = Number(Element);
-        console.log("n2: " + n2);
-    }*/
+        n2 += element;
+        displayScreen(n2);
+        console.log('n2: ' + n2);
+    }
 }
 
 const numbers = document.querySelectorAll('.Numbers');
@@ -89,8 +83,8 @@ total.addEventListener('click', function() {
 
 const clear = document.querySelector('.Clear');
 clear.addEventListener('click', function() {
-    n1 = undefined;
-    n2 = undefined;
+    n1 = "";
+    n2 = "";
     operatorElem = undefined;
-    displayScreen(0);
+    displayScreen("");
 });
